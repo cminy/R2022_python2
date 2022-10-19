@@ -1,0 +1,25 @@
+code,name,name_kr,what,with,how,months,under2018,start,end
+E006a,Musice_radio,룰루두근신촌,"기획, 운영, 콘텐츠제작",,"Vegas Pro, Youtube, Adobe Photoshop",17,1,2011/04,2012/08
+E006b,Musice_talk,신음감도,"기획, 운영, 마케팅",,Adobe Photoshop,20,1,2011/01,2012/08
+E006c,Musice_pf,musice,"운영, 마케팅",,Adobe Photoshop,12,1,2010/01,2010/12
+E009,30snoise,삼쓸신잡,"기획, 콘텐츠제작",,"Adobe Premiere Pro, Adobe Photoshop, Youtube, Google 문서",13,2,2018/07,2019/07
+E013,DJClub,DJClub,,,"Python, R, Colab, Github",5,2,2022/02,2022/06
+P001,OOuniv,후원장터,운영,,"Adobe Photoshop, Adobe Illustrator",3,1,2012/05,2012/08
+P002,PQD Cost,원가계산교육,"기획, 개선, 체계화",,"MS Office, Adobe Photoshop",5,1,2012/06,2012/11
+P003,PQD pcb,원가절감방법론,"기획, 개선, 체계화",엔지니어,"MS Office, CATIA, Adobe Photoshop",11,1,2012/06,2013/04
+P004,CDP,Cost Design,"개선, 체계화",엔지니어,"MS Office, VBA",6,1,2012/07,2012/12
+P008,TEDx 7th,TEDx 7th,"기획, 운영, 웹개발","마케터, 디자이너, 개발자, 운영협력사, 후원사","Trello, Asana, Google 문서, Adobe Photoshop, Google Meet, Facebook Group, HTML, CSS, PHP, Wordpress, Github, JS",8,1,2012/11,2013/06
+P009,PQD Data,데이터수집관리시스템,"개선, 체계화, 기획, 웹개발",개발자,"MS Office, Adobe Photoshop, Adobe Illustrator",4,1,2013/01,2013/04
+P010,TEDx 8th,TEDx 8th,"개선, 체계화, 기획, 운영","마케터, 디자이너, 개발자, 운영협력사, 후원사","Trello, Google 문서, Google Meet, Facebook Group",10,1,2013/06,2014/03
+P011,So VIP,So VIP,"개선, 체계화",,"Trello, Google 문서, Google Meet",14,1,2013/07,2014/08
+P012,SD,희망하우징,개선,디자이너,"Google 문서, Service Design Tools, 카카오톡",2,1,2014/01,2014/02
+P013,TEDx 9th,TEDx 9th,"개선, 체계화, 기획, 운영","마케터, 디자이너, 개발자, 운영협력사, 후원사","Google 문서, Azendoo, Google Meet, Evernote, Facebook Group",9,1,2014/03,2014/11
+P014,CMR,CMR,지원,"마케터, 운영협력사",MS Office,4,1,2014/04,2014/07
+P015,Galaxy,달토끼,"DB, 웹개발, 기획",디자이너,"AWS, Github, MySQL, Python, React, HTML/JSX, Notion, Slack",8,2,2018/11,2019/06
+P016,TTP Concept,TTP Branding,"기획, 운영","디자이너, 개발자, 운영협력사, 설계사, 시공사","Google 문서, CAD, Notion, Slack",10,2,2019/07,2020/04
+P017,Canverse,Canverse,"기획, 운영",디자이너,"Notion, Google Form, 인스타그램",3,2,2019/09,2019/11
+P018,TTP Operation,TTP Operation,"개선, 체계화, 운영",디자이너,"Notion, Google 문서, GA, Adobe Photoshop, Adobe Illustrator, Hubspot, Zapier, Google App Script",21,2,2020/04,2021/12
+P019,Section O,Section O,지원,디자이너,"Google 문서, Notion",19,2,2020/07,2022/01
+P020,TTP Reboot,TTP Reboot,"개선, 운영, 마케팅","디자이너, 개발자, 운영협력사","GA, Google 문서, Adobe Photoshop, Notion, 인스타그램, 네이버블로그, Youtube",4,2,2020/12,2021/03
+P021,BSW,BSW,운영,디자이너,Notion,3,2,2021/03,2021/05
+P022,Toastshop,토스트샵,"기획, 운영",디자이너,"네이버스토어, 인스타그램, Notion",4,2,2021/06,2021/09
