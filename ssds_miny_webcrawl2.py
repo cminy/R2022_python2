@@ -18,22 +18,30 @@ new_driver = set_chrome_driver()
 yt_url = "https://youtube.com/playlist?list=FLN3QmzfUO5BvjP5qVpRQfjg"
 new_driver.get(yt_url)
 
-yts = new_driver.find_elements(By.CSS_SELECTOR, value='a#video-title')
-titleList = []
-hrefList = []
+yt_body = new_driver.find_element(By.TAG_NAME, value='body')
+# 스크롤 key값 활용: PageDown, PageUp, 방향기(위/아래)
+for i in range(5):
+    yt_body.send_keys(Keys.END)
+    time.sleep(1.5)
+    
+# selenium을 이용해서 HTML문서를 변환한 후에는 반드시 브라우저를 종료해야 한다!
+yt_html = bs(new_driver.page_source, 'lxml')
+new_driver.close()
 
 print ('>>>> start')
-for yt in yts:
-    titleList.append(yt.get_attribute('title'))
-    hrefList.append(yt.get_attribute('href'))
-    time.sleep(1)
+titleList = []
+hrefList = []
+for yt in yt_html.select('a#video-title'):
+    title = yt.get('title')
+    content_url = 'https://www.youtube.com'+yt.get('href')
 
-new_driver.close()
+    titleList.append(title)
+    hrefList.append(content_url)
 
 df_yt = pd.DataFrame({
     'yt_title' : titleList,
     'yt_href' : hrefList
 })
 
-df_yt.head()
+print(df_yt)
 print('>>>> end')
