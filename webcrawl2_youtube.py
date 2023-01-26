@@ -1,4 +1,4 @@
-# DESCRIPTION : Python 웹크롤링 : 연관검색어 추출
+# DESCRIPTION : Python 웹크롤링 : 유튜브 플레이리스트 추출
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
