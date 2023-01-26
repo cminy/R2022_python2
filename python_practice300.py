@@ -6,7 +6,7 @@ import datetime
 import numpy as np
 import pandas as pd
 
-
+# start on 2022. 05. 23
 # -------- 051 ~ 070 리스트
 # 052
 movie_rank = ["닥터 스트레인지", "스플릿", "럭키"]
@@ -183,7 +183,7 @@ else:
 # print(max(arr))
 
 # 129 주민등록번호 유효성 체크
-id_nums = input("주민등록 번호를 입력하세요: ")
+id_nums = input("주민등록 번호를 입력하세요: 예)890319-1000000")
 nums = []
 test = np.array([2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 1])
 for _ in id_nums.split("-"):
@@ -320,3 +320,59 @@ for num in np.arange(0, 5, 0.1):
     print(round(num, 1))
 
 np.arange(0, 5, 0.1)
+
+# update on 2022. 10. 19
+# -------- 251 ~ 290 클래스
+# 252 ~ 259
+
+
+class Human:
+    def __init__(self, name, age, sex):
+        # print("응애응애")
+        self.name = name
+        self.age = age
+        self.sex = sex
+
+    def __del__(self):
+        print("나의 죽음을 알리지마라")
+
+    def who(self):
+        print('이름: {}, 나이: {}, 성별: {}'.format(self.name, self.age, self.sex))
+
+    def setInfo(self, name, age, sex):
+        self.name = name
+        self.age = age
+        self.sex = sex
+
+
+# areum = Human("이름", 25, "여자")
+# print(areum.age)
+areum = Human("불명", "미상", "모름")
+areum.who()
+areum.setInfo("이름", 25, "여자")
+areum.who()
+
+del areum
+
+# 260
+
+
+class OMG:
+    def print(self):
+        print('oh no')
+
+
+mystock = OMG()
+mystock.print()
+
+
+class OMG:
+    def print():
+        print('oh no')
+
+
+mystock = OMG()
+OMG.print()
+
+
+# 261 ~ 270
