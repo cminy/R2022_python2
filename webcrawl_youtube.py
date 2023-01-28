@@ -11,24 +11,27 @@ import time
 import os
 import re
 
+
 # set driver
 def set_chrome_driver():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     return driver
 
+
 # make url
-def channel_name(ch):
+def channel_name():
     while True:
+        ch = input("> 탐색할 유튜브 채널이름을 입력하세요: ")
         if re.findall(r'@[a-z]+', ch) != []:
-            print("@를 제외하고 채널명만 입력하세요.")
+            print("[!] @를 제외하고 채널명만 입력하세요.")
         elif '/' in ch:
-            print("채널명을 올바르게 입력해주세요.")
+            print("[!] 채널명을 올바르게 입력해주세요.")
         else:
-            check_input = input(f"입력한 채널명이  {ch}  맞습니까? Y/N: ")
+            check_input = input(f"> 입력한 채널명이  {ch}  맞습니까? Y/N: ")
             if check_input.upper() == 'Y':
                 url = f"https://www.youtube.com/@{ch}/playlists"
                 break
-    return url
+    return ch, url
 
 
 # page scroller
@@ -47,12 +50,36 @@ def scroll_webpage(driver):
 
         return True
 
+# bs4
+def bs4_lxml(i, pls, count):
+    count = int(count)
+    pls_title = pls.get_attribute('title')
+    time.sleep(2)
+
+    # playlist 접근
+    print(f'>>> {i+1}번째 playlist {pls_title} 접근 시작')
+    test = home_driver.find_elements(By.CSS_SELECTOR, '#view-more > a')
+    test[i].click()
+
+    # 페이지가 열릴때까지 기다린다.
+    home_driver.implicitly_wait(5)
+
+    # page source를 html로 가져오기
+    time.sleep(3)
+    scroll_webpage(home_driver)
+    yt_html = bs(home_driver.page_source, 'lxml')
+    
+    # playlist 내 video 크롤링
+    crawl_yt(pls_title, yt_html, count)
+
+
 # crawling youtube
-def crawl_yt(pls_title, yt_html):
+def crawl_yt(pls_title, yt_html, count):
     print(f'>>> playlist {pls_title} crawling >>>')
     title_list = []
     url_list = []
-    for i, yt in enumerate(yt_html.select('a#video-title')[len(miny_plays):]):
+    ch_list = []
+    for yt in yt_html.select('a#video-title')[len(miny_plays):]:
         title = yt.get('title')
         content_url = 'https://www.youtube.com'+yt.get('href')
 
@@ -61,12 +88,24 @@ def crawl_yt(pls_title, yt_html):
 
         time.sleep(0.5)
 
-    df = pd.DataFrame({
-        'yt_title': title_list,
-        'url' : url_list
-    })
+    time.sleep(1)
 
-    save_xls(pls_title, df)
+    for ch in yt_html.select('#text > a'):
+        ch_list.append(ch.text)
+        time.sleep(0.5)
+    
+    if count == len(title_list) == len(url_list) == len(ch_list):
+        df = pd.DataFrame({
+            'yt_title': title_list,
+            'url' : url_list,
+            'ch' : ch_list
+        })
+
+        save_xls(pls_title, df)
+
+    else: 
+        print(f'[!] check message: {count}, {len(title_list)}, {len(url_list)}, {len(ch_list)}')
+
 
 # create and save xls file
 def save_xls(pl, df):
@@ -89,49 +128,48 @@ def save_xls(pl, df):
     print(f'>>> [!] youtube playlist - < {pl} > 저장 완료')
     print('-'*50)
 
+
 # start program - create new driver
 home_driver = set_chrome_driver()
 while True:
-    channel = input("탐색할 유튜브 채널이름을 입력하세요: ")
-    yt_url = channel_name(channel)
+    channel, yt_url = channel_name()
     home_driver.get(yt_url)
+
     if "404" in home_driver.title:
         print(f'[!] 입력한 url : {yt_url} 이 잘못되었습니다. 다시 입력해 주세요')
     else:
-        announce = ' ' + channel + ' 의 playlists 탐색 시작 '
-        print('{:-^50}'.format(announce))
+        time.sleep(5)
+        scroll_webpage(home_driver)
+        miny_plays = home_driver.find_elements(By.CSS_SELECTOR, 'a#video-title')
+        videos = home_driver.find_elements(By.CSS_SELECTOR, '#overlays > ytd-thumbnail-overlay-side-panel-renderer > yt-formatted-string')
+        # select playlists
+        while True:
+            # playlists 출력
+            announce = ' ' + channel + ' 의 playlists '
+            print('{:-^50}'.format(announce))
+            print(f': 총 {len(miny_plays)}개의 playlists가 있습니다.')
+            for i, pls in enumerate(miny_plays):
+                print(f"  {i+1}. {pls.get_attribute('title')} : 동영상 {videos[i].text}개")
+            print('-'*50)
+
+            # playlist 선택
+            n = int(input('> playlist 번호를 선택해 주세요(숫자만 입력. 0을 입력하면 종료): '))
+            time.sleep(2)
+
+            if n in range(1, len(miny_plays)+1):
+                bs4_lxml(n-1, miny_plays[n-1], videos[n-1].text)
+                # 이전 페이지로 이동 후 페이지가 열릴때까지 기다린다.
+                home_driver.back()
+                home_driver.implicitly_wait(10)
+                scroll_webpage(home_driver)
+            elif n == 0:
+                break
+            else:
+                print("[!] 잘못 입력하였습니다.")
+
+        # close
+        print('[!] 프로그램을 종료합니다.')
+        home_driver.quit()
+
         break
 
-time.sleep(5)
-scroll_webpage(home_driver)
-
-# playlists 가져오기
-miny_plays = home_driver.find_elements(By.CSS_SELECTOR, 'a#video-title')
-print(f'>>> 총 {len(miny_plays)}개의 playlists가 있습니다. ')
-for i, pls in enumerate(miny_plays):
-    pls_title = pls.get_attribute('title')
-    time.sleep(2)
-
-    # playlist 접근
-    print(f'>>> {i+1}번째 playlist {pls_title} 접근 시작')
-    test = home_driver.find_elements(By.CSS_SELECTOR, '#view-more > a')
-    test[i].click()
-
-    # 페이지가 열릴때까지 기다린다.
-    home_driver.implicitly_wait(5)
-
-    # page source를 html로 가져오기
-    time.sleep(3)
-    scroll_webpage(home_driver)
-    yt_html = bs(home_driver.page_source, 'lxml')
-
-    # playlist 내 video 크롤링 후 이전페이지로 이동
-    crawl_yt(pls_title, yt_html)
-    home_driver.back()
-
-    # 페이지가 열릴때까지 기다린다.
-    home_driver.implicitly_wait(10)
-
-# close
-print('[!] playlist 저장을 종료합니다.')
-home_driver.quit()
